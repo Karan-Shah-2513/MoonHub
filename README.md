@@ -6,7 +6,7 @@
   <br>
 </h1>
 
-<h4 align="center">Collaborative Meetings : Streamlining Communication and Productivity  </h4>
+<h4 align="center">   </h4>
 
 
 <p align="center">
