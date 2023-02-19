@@ -5,7 +5,6 @@ import ReposList from "../components/ReposList";
 export default function Hub() {
   return (
     <div className="p-6">
-      <Navbar />
       <ReposList />
     </div>
   );
