@@ -1,42 +1,39 @@
 version: '3.7'
 
 services:
-  server0xkid:
+  servermoonhub:
     build:
       context: ./server
       dockerfile: Dockerfile
-    image: server0xkid
-    container_name: server0xkid
+    image: servermoonhub
+    container_name: servermoonhub
     command: npm start
     volumes:
-      - ./server0xkid/:/usr/src/app
+      - ./servermoonhub/:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - "3000:3000"
-      - "3001:3001"
-    environment:
-      - NODE_ENV=development
     networks:
-      - network0xkid
-  client0xkid:
+      - networkmoonhub
+  clientmoonhub:
     build:
       context: ./client
       dockerfile: Dockerfile
-    image: client0xkid
-    container_name: client0xkid
+    image: clientmoonhub
+    container_name: clientmoonhub
     command: npm run dev
     volumes:
-      - ./client0xkid/:/usr/app
+      - ./clientmoonhub/:/usr/app
       - /usr/app/node_modules
     depends_on:
-      - server0xkid
+      - servermoonhub
     ports:
       - "5173:5173"
     networks:
-      - network0xkid
+      - networkmoonhub
 
 networks:
-    network0xkid:
+    networkmoonhub:
         driver: bridge
 
 volumes:

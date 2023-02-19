@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from "react";
 import RepoCard from "./RepoCard";
 import { toast } from "react-toastify";
-import { useAuth } from "@arcana/auth-react";
+import { ethers } from "ethers";
+import axios from "axios";
 
 export default function ReposList() {
   const [repos, setRepos] = React.useState([]);
-  const auth = useAuth();
-
-  useEffect(() => {
-    const { address } = auth.user;
-    fetch(`${import.meta.env.VITE_BACKEND_SERVER}/repository/my/${address}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setRepos(data);
+  const main = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const address = await signer.getAddress();
+    console.log(address);
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_SERVER}/repository/my/${address}`)
+      .then((res) => {
+        console.log(res);
+        setRepos(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  useEffect(() => {
+    main();
   }, []);
 
   return (

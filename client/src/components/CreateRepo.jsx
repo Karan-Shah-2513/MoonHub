@@ -3,12 +3,49 @@ import lighthouse from "@lighthouse-web3/sdk";
 import { useAuth } from "@arcana/auth-react";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { ethers } from 'ethers';
 
 export default function CreateRepo() {
   const [formData, updateFormData] = useState({});
   const [fileEvent, setFileEvent] = useState(null);
-  const inputRef = useRef(null);
   const auth = useAuth();
+
+  const encryptionSignature = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const address = await signer.getAddress();
+    const messageRequested = (await lighthouse.getAuthMessage(address)).data
+      .message;
+    const signedMessage = await signer.signMessage(messageRequested);
+    return {
+      signedMessage: signedMessage,
+      publicKey: address,
+    };
+  };
+
+
+  /* Deploy file along with encryption */
+  const deployEncrypted = async (e) => {
+    const sig = await encryptionSignature();
+    const response = await lighthouse.uploadEncrypted(
+      e,
+      sig.publicKey,
+      import.meta.env.VITE_LIGHTHOUSE_KEY,
+      sig.signedMessage,
+      progressCallback
+    );
+    console.log(response);
+    /*
+      output:
+        {
+          Name: "c04b017b6b9d1c189e15e6559aeb3ca8.png",
+          Size: "318557",
+          Hash: "QmcuuAtmYqbPYmPx3vhJvPDi61zMxYvJbfENMjBQjq7aM3"
+        }
+      Note: Hash in response is CID.
+    */
+      return response.data.Hash;
+  };
 
   const progressCallback = (progressData) => {
     let percentageDone =
@@ -43,22 +80,28 @@ export default function CreateRepo() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(formData);
-    const folder = await deploy(fileEvent);
-    const {address } = auth.user;
+    const folder = await deployEncrypted(fileEvent);
+    // const { address } = auth.user;
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const address = await signer.getAddress();
     const data = {
       folder: folder,
-      owner : address,
+      owner: address,
       ...formData,
     };
 
-    axios.post(`${import.meta.env.VITE_BACKEND_SERVER}/repository`, data).then((res) => {
-      console.log(res);
-      console.log(res.data);
-      toast.success("Repository Created Successfully");
-    }).catch((err) => {
-      console.log(err);
-      toast.error("Repository Creation Failed");
-    });
+    axios
+      .post(`${import.meta.env.VITE_BACKEND_SERVER}/repository`, data)
+      .then((res) => {
+        console.log(res);
+        console.log(res.data);
+        toast.success("Repository Created Successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Repository Creation Failed");
+      });
   };
 
   return (
@@ -172,8 +215,8 @@ export default function CreateRepo() {
           </div>
           <h2>Select a folder to send to the server</h2>
           <input
-            directory=""
-            webkitdirectory=""
+            // directory=""
+            // webkitdirectory=""
             type="file"
             className="bg-gray-200 file-input file-input-info w-full max-w-screen"
             onChange={(e) => {
