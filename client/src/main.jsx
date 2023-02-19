@@ -23,7 +23,19 @@ import Hub from "./pages/MyHub";
 import Landing from "./pages/Landing";
 import Explore from "./pages/Explore";
 
-const provider = new AuthProvider(`${import.meta.env.VITE_ARCANA_APP_ADDRESS}`);
+const appAddress = import.meta.env.VITE_ARCANA_APP_ADDRESS; //example
+const provider = new AuthProvider(`${appAddress}`, {
+  //required
+  network: "testnet", //defaults to 'testnet'
+  position: "left", //defaults to right
+  theme: "light", //defaults to dark
+  alwaysVisible: true, //defaults to true which is Full UI mode
+  chainConfig: {
+    rpcUrl: "https://polygon-rpc.com", //defaults to 'https://rpc.ankr.com/eth'
+  },
+});
+
+// const provider = new AuthProvider(`${import.meta.env.VITE_ARCANA_APP_ADDRESS}`);
 
 function App() {
   return (

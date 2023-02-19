@@ -3,6 +3,7 @@ import RepoCard from "./RepoCard";
 import { toast } from "react-toastify";
 import { ethers } from "ethers";
 import axios from "axios";
+import axios from "axios";
 
 export default function ReposList() {
   const [repos, setRepos] = React.useState([]);

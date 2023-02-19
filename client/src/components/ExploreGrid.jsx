@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 
 export default function ExploreGrid() {
@@ -133,6 +134,18 @@ export default function ExploreGrid() {
       updatedAt: new Date(),
     },
   ]);
+
+  React.useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_SERVER}/api/v1/repository`)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        setRepos(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
   return (
     <div>
       <div className="grid grid-cols-3 gap-10 justify-center pl-14">
