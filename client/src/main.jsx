@@ -1,4 +1,3 @@
-import "./App.css";
 import "./index.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -9,6 +8,7 @@ import {
   RouterProvider,
   Outlet,
 } from "react-router-dom";
+
 import { AuthProvider } from "@arcana/auth";
 import { ProvideAuth } from "@arcana/auth-react";
 import { ToastContainer } from "react-toastify";

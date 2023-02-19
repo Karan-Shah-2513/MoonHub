@@ -12,7 +12,9 @@ export default function RepoCard(props) {
           <h2 className="card-title">{props.repo.name}</h2>
           <p>{props.repo.description}</p>
           <div className="card-actions justify-end">
-            <button className="btn btn-primary">Listen</button>
+            <a href = {`https://files.lighthouse.storage/viewFile/${props.repo.folder}`} target="_blank" rel="noreferrer">
+            <button className="btn btn-primary">Visit</button>
+            </a>
           </div>
         </div>
       </div>
