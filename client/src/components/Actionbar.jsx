@@ -3,9 +3,6 @@ import { CgFolderAdd } from "react-icons/cg";
 import CreateRepo from "./CreateRepo";
 
 export default function Actionbar(props) {
-  const createRepo = () => {
-    console.log("create repo");
-  };
   return (
     <>
       <div className="flex flex-row place-content-end bg-base-100">

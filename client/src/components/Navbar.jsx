@@ -87,7 +87,10 @@ const Navbar = () => {
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <Link to="/hub">Hub Repositories</Link>
+                <Link to="/hub">My Hub</Link>
+              </li>
+              <li>
+                <Link to="/explore">Explore</Link>
               </li>
               <li onClick={logout}>
                 <a>Logout</a>
