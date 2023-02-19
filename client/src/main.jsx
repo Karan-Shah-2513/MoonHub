@@ -7,11 +7,12 @@ import {
   createRoutesFromElements,
   Route,
   RouterProvider,
-  Outlet
+  Outlet,
 } from "react-router-dom";
 import { AuthProvider } from "@arcana/auth";
 import { ProvideAuth } from "@arcana/auth-react";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // components
 import Navbar from "./components/Navbar";
@@ -34,7 +35,7 @@ function App() {
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route exact path="/" element={<App/>}>
+    <Route exact path="/" element={<App />}>
       <Route path="" element={<Landing />} />
       <Route path="hub" element={<Hub />} />
     </Route>

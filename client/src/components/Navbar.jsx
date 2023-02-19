@@ -38,8 +38,10 @@ const Navbar = () => {
     auth.logout();
     localStorage.clear();
     setIsLoggedin(false);
-    toast("Logged Out");
-    // window.location.reload();
+    toast.success("Logged Out", {
+      autoClose: 1000,
+    });
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -58,9 +60,7 @@ const Navbar = () => {
   return (
     <div className="w-11/12 md:mr-10 md:ml-10 ml-5 md-5 rounded-xl navbar">
       <div className="flex-1 text-blue-200 text-3xl">
-        <Link to ="/">
-          MoonHub
-        </Link>
+        <Link to="/">MoonHub</Link>
       </div>
       <div className="flex-none">
         {isLoading && <img src={profileLoad} className="h-10" />}
