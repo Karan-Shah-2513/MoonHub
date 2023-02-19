@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("use /api/v1/repository");
 });
 
 app.use("/api/v1/repository", repositoryRoutes);
@@ -26,5 +26,5 @@ app.use(errorHandler);
 app.use(notFound);
 
 app.listen(3000, async () => {
-  console.log(`Example app listening at http://localhost:${process.env.PORT}`);
+  console.log(`app listening at http://localhost:${process.env.PORT}`);
 });

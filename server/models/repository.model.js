@@ -7,6 +7,7 @@ const Document = new Schema({
   image: { type: String, required: true },
   oneTimeFee: { type: Number, required: true },
   subscriptionRate: { type: Number, required: true },
+  currency: { type: String, required: true },
   folder: { type: String, required: true },
   isActive : { type: Boolean, default: true },
   crearedAt: { type: Date, default: Date.now },
