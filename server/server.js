@@ -26,5 +26,5 @@ app.use(errorHandler);
 app.use(notFound);
 
 app.listen(3000, async () => {
-  console.log(`Example app listening at http://localhost:${process.env.PORT}`);
+  console.log(`app listening at http://localhost:${process.env.PORT}`);
 });

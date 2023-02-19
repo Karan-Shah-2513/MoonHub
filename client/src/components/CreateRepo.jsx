@@ -1,10 +1,14 @@
 import React, { useRef, useState } from "react";
 import lighthouse from "@lighthouse-web3/sdk";
+import { useAuth } from "@arcana/auth-react";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 export default function CreateRepo() {
   const [formData, updateFormData] = useState({});
   const [fileEvent, setFileEvent] = useState(null);
   const inputRef = useRef(null);
+  const auth = useAuth();
 
   const progressCallback = (progressData) => {
     let percentageDone =
@@ -21,19 +25,10 @@ export default function CreateRepo() {
       progressCallback
     );
     console.log("File Status:", output);
-    /*
-          output:
-            {
-              Name: "filename.txt",
-              Size: 88000,
-              Hash: "QmWNmn2gr4ZihNPqaC5oTeePsHvFtkWNpjY3cD6Fd5am1w"
-            }
-          Note: Hash in response is CID.
-        */
-
     console.log(
       "Visit at https://gateway.lighthouse.storage/ipfs/" + output.data.Hash
     );
+    return output.data.Hash;
   };
 
   const handleChange = (e) => {
@@ -48,7 +43,22 @@ export default function CreateRepo() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(formData);
-    deploy(fileEvent);
+    const folder = await deploy(fileEvent);
+    const {address } = auth.user;
+    const data = {
+      folder: folder,
+      owner : address,
+      ...formData,
+    };
+
+    axios.post(`${import.meta.env.VITE_BACKEND_SERVER}/repository`, data).then((res) => {
+      console.log(res);
+      console.log(res.data);
+      toast.success("Repository Created Successfully");
+    }).catch((err) => {
+      console.log(err);
+      toast.error("Repository Creation Failed");
+    });
   };
 
   return (
@@ -86,31 +96,12 @@ export default function CreateRepo() {
                 class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
-                name="imglink"
+                name="image"
                 placeholder="https://www.google.com/"
                 onChange={handleChange}
               />
             </div>
           </div>
-          {/* <div class="flex flex-wrap -mx-3 mb-6">
-            <div class="w-full px-3">
-              <label
-                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-password"
-              >
-                Password
-              </label>
-              <input
-                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="grid-password"
-                type="password"
-                placeholder="******************"
-              />
-              <p class="text-gray-600 text-xs italic">
-                Make it as long and as crazy as you'd like
-              </p>
-            </div>
-          </div> */}
           <div class="flex flex-wrap -mx-3 mb-2">
             <div class="w-full  px-3 mb-6 md:mb-0">
               <label
@@ -129,7 +120,7 @@ export default function CreateRepo() {
               />
             </div>
 
-            <div class="w-full md:w-1/2 px-3 mb-8 mt-4 md:mb-0">
+            <div class="w-full md:w-1/3 px-3 mb-8 mt-4 md:mb-0">
               <label
                 class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                 for="grid-subscriptionRate"
@@ -144,12 +135,9 @@ export default function CreateRepo() {
                 placeholder="2Cr/m"
                 onChange={handleChange}
               />
-              {/* <p class="text-red-500 text-xs italic">
-                Please fill out this field.
-              </p> */}
             </div>
 
-            <div class="w-full md:w-1/2 px-3 mt-4 mb-8 md:mb-0">
+            <div class="w-full md:w-1/3 px-3 mt-4 mb-8 md:mb-0">
               <label
                 class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                 for="grid-oneTimeFee"
@@ -161,12 +149,25 @@ export default function CreateRepo() {
                 id="grid-oneTimeFee"
                 name="oneTimeFee"
                 type="text"
-                placeholder="2Cr"
+                placeholder="2ETH"
                 onChange={handleChange}
               />
-              {/* <p class="text-red-500 text-xs italic">
-                Please fill out this field.
-              </p> */}
+            </div>
+            <div class="w-full md:w-1/3 px-3 mt-4 mb-8 md:mb-0">
+              <label
+                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-oneTimeFee"
+              >
+                Currency (e.g. ETH, USDT)
+              </label>
+              <input
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="grid-oneTimeFee"
+                name="currency"
+                type="text"
+                placeholder="ETH"
+                onChange={handleChange}
+              />
             </div>
           </div>
           <h2>Select a folder to send to the server</h2>

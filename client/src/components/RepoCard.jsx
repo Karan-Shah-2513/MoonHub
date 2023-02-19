@@ -1,26 +1,10 @@
 import React from "react";
-/**
- *   const [repos, setRepos] = React.useState([
-    {
-      id: "123",
-      name: "MoonHub",
-      description: "Footprints on the moon",
-      owner: "Karan",
-      image: "https://via.placeholder.com/300",
-      oneTimeFee: "2cr",
-      subscriptionRate: "1Cr/s",
-      folder: "FolderName",
-      isActive: true,
-      crearedAt: new Date(),
-      updatedAt: new Date(),
-    },
-  ]);
- */
+
 export default function RepoCard(props) {
   console.log(props.repo.image);
   return (
     <>
-      <div className="card p-3 lg:card-side bg-base-100 shadow-xl h-48">
+      <div className="card p-3 lg:card-side bg-base-100 shadow-xl h-48 mb-5">
         <figure>
           <img src={`${props.repo.image}`} alt="Album" />
         </figure>

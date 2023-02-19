@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 export default function Landing() {
   return (
     <div
@@ -13,9 +13,14 @@ export default function Landing() {
         <div className="max-w-md">
           <h1 className="mb-5 text-5xl font-bold">Hello there</h1>
           <p className="mb-5">
-          Keep your digital life safe and accessible for all eternity with our secure perpetual storage service.  Our subscription-based model allows you to choose a plan that fits your storage needs and budget. Never worry about losing access to your files again with MoonHub.
+            Keep your digital life safe and accessible for all eternity with our
+            secure perpetual storage service. Our subscription-based model
+            allows you to choose a plan that fits your storage needs and budget.
+            Never worry about losing access to your files again with MoonHub.
           </p>
-          <button className="btn btn-primary">Get Started</button>
+          <Link to="/explore">
+            <button className="btn btn-primary">Get Started</button>{" "}
+          </Link>
         </div>
       </div>
     </div>

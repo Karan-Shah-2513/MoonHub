@@ -49,20 +49,6 @@ export default function Actionbar(props) {
         </>
         <button></button>
       </div>
-      {/* <div className="feature-buttons flex flex-row justify-between px-24 py-5">
-        <button className="btn bg-blue-400 hover:bg-blue-700 text-white font-bold rounded">
-          Create a new repo
-        </button>
-        <button className="btn bg-blue-400 hover:bg-blue-700 text-white font-bold rounded">
-          My repos
-        </button>
-        <button className="btn bg-blue-400 hover:bg-blue-700 text-white font-bold rounded">
-          All repos
-        </button>
-        <button className="btn bg-blue-400 hover:bg-blue-700 text-white font-bold rounded">
-          Pending access requests
-        </button>
-      </div> */}
     </>
   );
 }

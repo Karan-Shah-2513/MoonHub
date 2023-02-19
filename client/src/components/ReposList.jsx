@@ -1,22 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import RepoCard from "./RepoCard";
+import { toast } from "react-toastify";
+import { useAuth } from "@arcana/auth-react";
 
 export default function ReposList() {
-  const [repos, setRepos] = React.useState([
-    {
-      id: "123",
-      name: "MoonHub",
-      description: "Footprints on the moon",
-      owner: "Karan",
-      image: "https://via.placeholder.com/300",
-      oneTimeFee: "2cr",
-      subscriptionRate: "1Cr/s",
-      folder: "FolderName",
-      isActive: true,
-      crearedAt: new Date(),
-      updatedAt: new Date(),
-    },
-  ]);
+  const [repos, setRepos] = React.useState([]);
+  const auth = useAuth();
+
+  useEffect(() => {
+    const { address } = auth.user;
+    fetch(`${import.meta.env.VITE_BACKEND_SERVER}/repository/my/${address}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setRepos(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <>
       <div className="">

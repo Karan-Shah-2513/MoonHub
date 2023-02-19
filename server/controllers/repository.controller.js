@@ -20,6 +20,7 @@ const createRepository = async (req, res, next) => {
       oneTimeFee,
       subscriptionRate,
       folder,
+      currency,
     } = req.body;
 
     const newRepository = new repository({
@@ -30,9 +31,14 @@ const createRepository = async (req, res, next) => {
       subscriptionRate,
       folder,
       owner,
+      currency,
     });
     await newRepository.save();
-    res.status(201).json(newRepository);
+    res.status(201).json({
+      success : true,
+      message: "Repository created",
+      repository: newRepository,
+    });
   } catch (error) {
     next(error);
   }
