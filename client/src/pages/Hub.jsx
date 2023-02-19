@@ -1,11 +1,12 @@
 import React from "react";
+import Navbar from "../components/Navbar";
+import ReposList from "../components/ReposList";
 
 export default function Hub() {
   return (
-    <div className="App p-10">
-      <div className="text-3xl text-blue-600 text-center">
-        Footprints on the Moon ! The Moon Hub !
-      </div>
+    <div className="p-6">
+      <Navbar />
+      <ReposList />
     </div>
   );
 }
