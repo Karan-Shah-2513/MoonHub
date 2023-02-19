@@ -20,9 +20,6 @@ export default function Login() {
   };
   return (
     <>
-      <div className="text-3xl text-blue-600 text-center">
-        Footprints on the Moon !
-      </div>
       <div className="links flex flex-col w-40 text-center">
         <button
           onClick={() => {
@@ -36,8 +33,12 @@ export default function Login() {
       {auth.user && (
         <>
           <div>
-            Hello <span class="animate-waving-hand"> 👋🏻 </span> {auth.user.name}{" "}
+            <h1>
+              Hello
+              <span> 👋🏻 </span> {auth.user.name} , Welcome to Moon Hub !
+            </h1>
           </div>
+
           <div className="links flex flex-col w-40 text-center">
             <button
               onClick={() => {
