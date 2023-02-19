@@ -1,26 +1,30 @@
-const { ethers } = require("ethers");
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const db = require("./config/db");
+const morgan = require("morgan");
+const { notFound, errorHandler } = require("./middleware/error.middleware");
 
-const repository = require("./contracts/artifacts/1_Repository.json");
-const repositoryAddress = "0x0fdC79cF32536ACeC922dDe65294DD2CE9bA637E";
-const repositoryAbi = repository.output.abi;
+const repositoryRoutes = require("./routes/repository.routes");
 
-const provider = new ethers.providers.JsonRpcProvider(
-  "https://rpc.testnet.mantle.xyz"
-);
+const app = express();
 
-const wallet = new ethers.Wallet(
-  "0x18baCF8465F64C578Cf022447D76143b08aff802",
-  provider
-);
+app.use(cors());
 
-const repositoryContract = new ethers.Contract(
-  repositoryAddress,
-  repositoryAbi,
-  wallet
-);
-const main = async () => {
-  const result = await repositoryContract.getAllRepository();
-  console.log(result);
-};
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-main();
+app.use(morgan("dev"));
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
+app.use("/api/v1/repository", repositoryRoutes);
+
+app.use(errorHandler);
+app.use(notFound);
+
+app.listen(3000, async () => {
+  console.log(`Example app listening at http://localhost:${process.env.PORT}`);
+});
